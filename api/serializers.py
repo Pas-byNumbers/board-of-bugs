@@ -21,10 +21,10 @@ class BugSerializer(serializers.ModelSerializer):
             'found_by',
             'error_details',
             'output',
-            'severity',
+            'severity', 
             'fix',
             'open_datetime',
-            'close_datatime',
+            'close_datetime',
             'is_resolved',
             'project'
         )
