@@ -92,6 +92,8 @@ WSGI_APPLICATION = 'BoBs.wsgi.application'
 
 DATABASES = {}
 CORS_ORIGIN_ALLOW_ALL = True
+# comment out above line in production and whitelist URIs below
+# CORS_ALLOWED_ORIGINS = []
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
