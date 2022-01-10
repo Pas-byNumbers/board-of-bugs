@@ -40,14 +40,25 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'rest_framework',
+    'rest_framework_simplejwt',
     'corsheaders',
-    'api'
+    'api',
+    'accounts'
 ]
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer'
     ]
 }
 
@@ -91,12 +102,14 @@ WSGI_APPLICATION = 'BoBs.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {}
-# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = True
 # comment out above line in production and whitelist URIs below
+"""
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',  # React default port = 3000
     'http://localhost:8000',  # Django default port = 8000
 ]
+"""
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
