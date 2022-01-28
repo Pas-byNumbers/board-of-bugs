@@ -6,6 +6,7 @@ from .serializers import ProjectSerializer, BugSerializer
 
 # Create your views here.
 class ProjectViewSet(ModelViewSet):
+    # queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = (IsAuthenticated, )
     filter_backends = [filters.OrderingFilter]
@@ -17,6 +18,7 @@ class ProjectViewSet(ModelViewSet):
         return Project.objects.filter(user=user)
     
 class BugViewSet(ModelViewSet):
+    # queryset = Bug.objects.all()
     serializer_class = BugSerializer
     permission_classes = (IsAuthenticated, )
     filter_backends = [filters.OrderingFilter]
