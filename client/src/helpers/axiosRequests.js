@@ -6,9 +6,9 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 
 const handleError = (message) => {
   console.log(message);
-  const simplifiedError = JSON.parse(message.request.responseText)
-  for (const errorFound in simplifiedError) {
-    toast.error(`${errorFound}: ${simplifiedError[errorFound]}`)
+  const errorMessage = JSON.parse(message.request.responseText);
+  for (const errorFound in errorMessage) {
+    toast.error(`${errorFound}: ${errorMessage[errorFound]}`);
   }
 };
 // axiosLogin
@@ -18,7 +18,7 @@ export const axiosLogin = (username, password) => {
       username,
       password,
     })
-    .catch(err => handleError(err.response));
+    .catch((err) => handleError(err.response));
 };
 //  axiosRegister
 export const axiosRegister = (username, password, email) => {
@@ -28,21 +28,57 @@ export const axiosRegister = (username, password, email) => {
       password,
       email,
     })
-    .catch(err => handleError(err));
+    .catch((err) => handleError(err));
 };
 // axiosRefresh
 export const axiosRefreshToken = (refreshKey) => {
-  axios.post(`/accounts/refresh/`, { refreshKey }).then();
+  return axios
+    .post(`/accounts/refresh/`, { refreshKey })
+    .catch((err) => handleError(err));
 };
 
 // axiosGetUser
-export const axiosGetUser = async (id, accessKey) => {
-  try {
-    const res = await axios.get(`/accounts/users/${id}`, {
+export const axiosGetUser = (id, accessKey) => {
+  return axios
+    .get(`/accounts/users/${id}/`, {
       headers: { Authorization: `Bearer ${accessKey}` },
-    });
-    return res.data;
-  } catch (error) {
-    console.log(error);
-  }
+    })
+    .catch((err) => handleError(err));
+};
+
+// axiosGetUsersIndex
+export const axiosGetUsersIndex = (accessKey) => {
+  return axios
+    .get(`/accounts/users/`, {
+      headers: { Authorization: `Bearer ${accessKey}` },
+    })
+    .catch((err) => handleError(err));
+};
+
+// axiosGetProjects
+export const axiosGetProjects = (accessKey) => {
+  return axios
+    .get(`/api/projects/`, {
+      headers: { Authorization: `Bearer ${accessKey}` },
+    })
+    .catch((err) => handleError(err));
+};
+
+// axiosCreateProject
+
+export const axiosCreateProject = (formData, userId, accessKey) => {
+  return axios
+    .post(
+      `/api/projects/`,
+      {
+        ...formData,
+        user: userId
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessKey}`,
+        },
+      }
+    )
+    .catch((err) => handleError(err));
 };

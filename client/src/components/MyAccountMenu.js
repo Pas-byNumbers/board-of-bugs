@@ -1,9 +1,10 @@
 import { Menu } from "grommet";
 import { useNavigate } from "react-router-dom";
 
-const MyAccountMenu = () => {
+const MyAccountMenu = ({ user, handleLogout }) => {
   const navigate = useNavigate();
-  return (
+
+  const renderGuestMenu = () => (
     <Menu
       label="My Account"
       items={[
@@ -21,6 +22,28 @@ const MyAccountMenu = () => {
         },
       ]}
     />
+  )
+
+  const renderUserMenu = () => (
+    <Menu
+      label="My Account"
+      items={[
+        { 
+          label: "Sign Out",
+          onClick: () => {
+            handleLogout()
+            navigate("/")
+          }
+        }
+      ]}
+    />
+  )
+  return (
+    <div>
+      {
+        user.id ? renderUserMenu() : renderGuestMenu()
+      }
+    </div>
   );
 };
 

@@ -103,7 +103,7 @@ WSGI_APPLICATION = 'BoBs.wsgi.application'
 DATABASES = {}
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
-# comment out above line in production and whitelist URIs below
+# comment out above 2 lines in production and whitelist URIs below
 """
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',  # React default port = 3000

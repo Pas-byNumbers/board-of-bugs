@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Navbar, PostUserForm } from "./components";
+import { ProjectsContainer } from "./containers";
 import { axiosLogin, axiosRegister } from "./helpers/axiosRequests";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -10,23 +11,29 @@ function App() {
   const [token, setToken] = useState({});
 
   const handleLogin = async (requestBody) => {
-    const loadLogin = toast.loading("Logging In...");
+    const toastLoadLogin = toast.loading("Logging In...");
     const res = await axiosLogin(requestBody.username, requestBody.password);
-    toast.dismiss(loadLogin);
+    toast.dismiss(toastLoadLogin);
     if (res.data) {
       saveUserToState(res.data);
       toast.success("Successfully Logged In!");
     }
   };
 
+  const handleLogout = () => {
+    setUser({});
+    setToken({});
+    toast.success("You have Logged Out");
+  };
+
   const handleRegister = async (requestBody) => {
-    const loadRegister = toast.loading("Registering your account...");
+    const toastLoadRegister = toast.loading("Registering your account...");
     const res = await axiosRegister(
       requestBody.username,
       requestBody.password,
       requestBody.email
     );
-    toast.dismiss(loadRegister);
+    toast.dismiss(toastLoadRegister);
     if (res.data) {
       saveUserToState(res.data);
       toast.success("Successfully Registered Account!");
@@ -43,9 +50,12 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header"></header>
-      <Navbar />
+      <Navbar user={user} handleLogout={handleLogout} />
       <Routes>
+        <Route
+          path="/projects"
+          element={<ProjectsContainer token={token} userId={user.id} />}
+        />
         <Route
           path="/login"
           element={

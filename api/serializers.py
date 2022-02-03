@@ -10,7 +10,8 @@ class ProjectSerializer(serializers.ModelSerializer):
             'context', 
             'cycle', 
             'status', 
-            'version'
+            'version',
+            'user'
         )
 
 class BugSerializer(serializers.ModelSerializer):
