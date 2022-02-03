@@ -4,8 +4,8 @@ import toast from "react-hot-toast";
 axios.defaults.baseURL = `http://localhost:8000`;
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-const handleError = (message) => {
-  console.log(message);
+const handleRequestError = (message) => {
+  console.log(message.request);
   const errorMessage = JSON.parse(message.request.responseText);
   for (const errorFound in errorMessage) {
     toast.error(`${errorFound}: ${errorMessage[errorFound]}`);
@@ -18,7 +18,7 @@ export const axiosLogin = (username, password) => {
       username,
       password,
     })
-    .catch((err) => handleError(err.response));
+    .catch((err) => handleRequestError(err.response));
 };
 //  axiosRegister
 export const axiosRegister = (username, password, email) => {
@@ -28,13 +28,13 @@ export const axiosRegister = (username, password, email) => {
       password,
       email,
     })
-    .catch((err) => handleError(err));
+    .catch((err) => handleRequestError(err));
 };
 // axiosRefresh
 export const axiosRefreshToken = (refreshKey) => {
   return axios
-    .post(`/accounts/refresh/`, { refreshKey })
-    .catch((err) => handleError(err));
+    .post(`/accounts/refresh/`, { refresh: refreshKey })
+    .catch((err) => handleRequestError(err));
 };
 
 // axiosGetUser
@@ -43,7 +43,7 @@ export const axiosGetUser = (id, accessKey) => {
     .get(`/accounts/users/${id}/`, {
       headers: { Authorization: `Bearer ${accessKey}` },
     })
-    .catch((err) => handleError(err));
+    .catch((err) => handleRequestError(err));
 };
 
 // axiosGetUsersIndex
@@ -52,7 +52,7 @@ export const axiosGetUsersIndex = (accessKey) => {
     .get(`/accounts/users/`, {
       headers: { Authorization: `Bearer ${accessKey}` },
     })
-    .catch((err) => handleError(err));
+    .catch((err) => handleRequestError(err));
 };
 
 // axiosGetProjects
@@ -61,11 +61,10 @@ export const axiosGetProjects = (accessKey) => {
     .get(`/api/projects/`, {
       headers: { Authorization: `Bearer ${accessKey}` },
     })
-    .catch((err) => handleError(err));
+    .catch((err) => handleRequestError(err));
 };
 
 // axiosCreateProject
-
 export const axiosCreateProject = (formData, userId, accessKey) => {
   return axios
     .post(
@@ -80,5 +79,5 @@ export const axiosCreateProject = (formData, userId, accessKey) => {
         },
       }
     )
-    .catch((err) => handleError(err));
+    .catch((err) => handleRequestError(err));
 };

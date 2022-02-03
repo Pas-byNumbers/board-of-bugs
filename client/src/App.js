@@ -1,9 +1,14 @@
 import { Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navbar, PostUserForm } from "./components";
 import { ProjectsContainer } from "./containers";
-import { axiosLogin, axiosRegister } from "./helpers/axiosRequests";
+import {
+  axiosLogin,
+  axiosRegister,
+  axiosRefreshToken,
+} from "./helpers/axiosRequests";
 import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 function App() {
   //  state -user-
@@ -48,9 +53,31 @@ function App() {
     });
   };
 
+  const handleRecycleToken = async (token) => {
+    if (token.refresh) {
+      const res = await axiosRefreshToken(token.refresh);
+      if (res.data) {
+        setToken({
+          ...token,
+          access: res.data.access,
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      handleRecycleToken(token);
+    }, 250000);
+  }, [token]);
+
   return (
     <div className="App">
-      <Navbar user={user} handleLogout={handleLogout} />
+      <Navbar
+        user={user}
+        handleLogout={handleLogout}
+        handleRecycleToken={handleRecycleToken}
+      />
       <Routes>
         <Route
           path="/projects"
