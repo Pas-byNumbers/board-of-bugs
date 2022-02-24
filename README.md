@@ -1,2 +1,2 @@
 # board-of-bugs
-A Django-React app with Semantic UI styling. This app allows an admin to create a project and report bugs to query later.
+A Django-React Hybrid app with Grommet UI library for styling. This app allows a user to create a project and report bugs to query later.
